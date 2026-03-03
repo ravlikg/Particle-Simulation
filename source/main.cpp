@@ -12,10 +12,11 @@ int main() {
     sf::Vector2u windowSize = window.getSize();
 
     float centerX = windowSize.x / 2.0f;
-    float centerY = windowSize.y / 2.0f;
+    float centerY = 0;
 
     // Теперь передаем эти координаты частице при создании
-    Particle p(0.5f, {centerX, centerY});
+    Particle p(1.0f, 20.f, {centerX, centerY});
+    sf::Clock clock;
 
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -24,8 +25,10 @@ int main() {
             }
         }
 
-        window.clear(sf::Color::Black);
+        auto elapsed_time = clock.restart();
+        p.update(elapsed_time.asSeconds());
 
+        window.clear(sf::Color::Black);
         p.draw(window);
 
         window.display();

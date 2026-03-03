@@ -6,42 +6,43 @@ constexpr float G = 9.8;
 
 class Particle {
 public:
-    Particle(float level, sf::Vector2f position)
-        : shape_(100, 30),
-          velocity_({0, 0}),
-          acceleration_({0, 0}),
+    Particle(const float level, const float radius, const sf::Vector2f position)
+        : shape_(20, radius),
+          acceleration_({10.0f, 10.0f}),
           level_(level),
-          mass_(1) {
-        shape_.setOrigin(sf::Vector2f({shape_.getRadius(), shape_.getRadius()}));
+          mass_(1),
+          position_(position),
+          previous_position_(position),
+          radius_(radius) {
+        shape_.setOrigin(sf::Vector2f({radius_, shape_.getRadius()}));
         shape_.setPosition(position);
-        shape_.setFillColor(sf::Color(150, 50, 250));
+        shape_.setFillColor(sf::Color(0, 60, 150));
     }
 
-    void update() {
-        addGravity();
-        shape_.move(velocity_);
+    void update(float dt) {
+        sf::Vector2f displacement = position_ - previous_position_;
+        previous_position_ = position_;
+        position_ += displacement + acceleration_ * (dt * dt);
+        //acceleration_ = {};
+
+        shape_.setPosition(position_);
     }
 
-    void addGravity() {
-        constexpr float kPxPermM = 50;
-        constexpr float fps = 60;
-        velocity_.y += level_ * G / (fps * fps) * kPxPermM;
-    }
 
     void draw(sf::RenderWindow& window) {
-        update();
         window.draw(shape_);
     }
 
 private:
     sf::CircleShape shape_;
 
-    sf::Vector2f velocity_;
+    sf::Vector2f position_;
+    sf::Vector2f previous_position_;
     sf::Vector2f acceleration_;
 
-    float level_{};
+    float level_;
 
-    float mass_{};
-    //float m_radius{};
+    int mass_;
+    float radius_;
     //float m_restitution{};
 };
