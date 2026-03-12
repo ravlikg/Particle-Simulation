@@ -6,7 +6,6 @@ int main() {
     settings.antiAliasingLevel = 8;
 
     sf::RenderWindow window(sf::VideoMode({800, 600}), "SFML shapes", sf::Style::Default, sf::State::Windowed, settings);
-    window.setFramerateLimit(60);
 
     // Допустим, твоё окно называется window
     sf::Vector2u windowSize = window.getSize();
