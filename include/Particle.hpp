@@ -8,11 +8,11 @@ class Particle {
 public:
     Particle(const float level, const float radius, const sf::Vector2f position)
         : shape_(20, radius),
+          position_(position),
+          previous_position_(position),
           acceleration_({10.0f, 10.0f}),
           level_(level),
           mass_(1),
-          position_(position),
-          previous_position_(position),
           radius_(radius) {
         shape_.setOrigin(sf::Vector2f({radius_, shape_.getRadius()}));
         shape_.setPosition(position);
