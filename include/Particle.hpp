@@ -6,12 +6,11 @@ constexpr float G = 9.8;
 
 class Particle {
 public:
-    Particle(const float level, const float radius, const sf::Vector2f position)
-        : shape_(20, radius),
+    Particle(const sf::Vector2f position, const float radius)
+        : shape_(radius, 20),
           position_(position),
           previous_position_(position),
-          acceleration_({10.0f, 10.0f}),
-          level_(level),
+          acceleration_({0.0f, 0.0f}),
           mass_(1),
           radius_(radius) {
         shape_.setOrigin(sf::Vector2f({radius_, shape_.getRadius()}));
@@ -23,7 +22,7 @@ public:
         sf::Vector2f displacement = position_ - previous_position_;
         previous_position_ = position_;
         position_ += displacement + acceleration_ * (dt * dt);
-        //acceleration_ = {};
+        acceleration_ = {};
 
         shape_.setPosition(position_);
     }
@@ -33,6 +32,18 @@ public:
         window.draw(shape_);
     }
 
+    void accelerate(sf::Vector2f a) {
+        acceleration_ += a;
+    }
+
+    void setVelocity(sf::Vector2f v, float dt) {
+        previous_position_ = position_ - (v * dt);
+    }
+
+    sf::Vector2f getVelocity() const {
+        return position_ - previous_position_;
+    }
+
 private:
     sf::CircleShape shape_;
 
@@ -40,7 +51,7 @@ private:
     sf::Vector2f previous_position_;
     sf::Vector2f acceleration_;
 
-    float level_;
+    //float level_;
 
     int mass_;
     float radius_;
