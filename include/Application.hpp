@@ -11,7 +11,7 @@ public:
     }
 
     void run() {
-        sf::Clock clock;
+        window_.setFramerateLimit(60);
         auto window_size = window_.getSize();
         float x_position = window_size.x / 2;
         float y_position = 0;
@@ -20,8 +20,7 @@ public:
 
         while (window_.isOpen()) {
             handleEvents();
-            auto elapsed_time = clock.restart();
-            update(elapsed_time.asSeconds());
+            update();
             render();
         }
     }
@@ -35,8 +34,8 @@ private:
         }
     }
 
-    void update(float dt) {
-        simulation_.update(dt);
+    void update() {
+        simulation_.update();
     }
 
     void render() {
