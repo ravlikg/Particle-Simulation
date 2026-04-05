@@ -17,6 +17,8 @@ public:
         float y_position = 0;
         sf::Vector2f particle_position{x_position, y_position};
         simulation_.addParticle(particle_position, 10.0f);
+        simulation_.addParticle(particle_position, 10.0f);
+        simulation_.addParticle(particle_position, 10.0f);
 
         while (window_.isOpen()) {
             handleEvents();

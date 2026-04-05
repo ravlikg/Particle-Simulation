@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Random.hpp"
 
 constexpr float G = 9.8;
 
@@ -9,7 +10,8 @@ class Particle {
 public:
     Particle(const sf::Vector2f position, const float radius)
         : position_(position),
-          previous_position_(position),
+          previous_position_(position.x - Random::getDouble(-1.0, 1.0),
+                             position.y - Random::getDouble(-1.0, 1.0)),
           acceleration_({0.0f, 0.0f}),
           radius_(radius) {
     }
