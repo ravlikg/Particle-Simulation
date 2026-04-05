@@ -17,7 +17,7 @@ public:
         }
     }
 
-    void addParticle(sf::Vector2f position, float radius) {
+    void addParticle(sf::Vector2f position, float radius = 10) {
         Particle new_particle{position, radius};
         particles_.emplace_back(new_particle);
     }

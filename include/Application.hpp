@@ -17,27 +17,39 @@ public:
         float y_position = 0;
         sf::Vector2f particle_position{x_position, y_position};
         simulation_.addParticle(particle_position, 10.0f);
-        simulation_.addParticle(particle_position, 10.0f);
-        simulation_.addParticle(particle_position, 10.0f);
+
 
         while (window_.isOpen()) {
-            handleEvents();
+            handleEvents(clock_);
             update();
             render();
         }
     }
 
 private:
-    void handleEvents() {
+    void handleEvents(sf::Clock clock) {
+
         while (auto event = window_.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window_.close();
+            }
+
+            if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
+            {
+                if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+                {
+                    simulation_.addParticle(sf::Vector2f(mouseButtonPressed->position));
+                }
             }
         }
     }
 
     void update() {
         simulation_.update();
+    }
+
+    void resetClock() {
+        clock_.restart();
     }
 
     void render() {
@@ -49,4 +61,5 @@ private:
 private:
     sf::RenderWindow window_;
     Simulation simulation_;
+    sf::Clock clock_{};
 };
